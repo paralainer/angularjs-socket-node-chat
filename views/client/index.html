@@ -25,11 +25,20 @@
 
     socket.on('init', function (data) {
         $chatBox.html('');
+        if (!data.messages) return;
+        for (var i = 0; i < data.messages.length; i++) {
+            var message = data.messages[i];
+            addMessage(message.text)
+        }
     });
 
     socket.on('send:message', function (message) {
-        $chatBox.append("<div class='message'>" + message.text + "</div>");
+        addMessage(message.text)
     });
+
+    function addMessage(text){
+        $chatBox.append("<div class='message'>" + text + "</div>");
+    }
     $('.send_button').click(function (e) {
         e.preventDefault();
         var messageText = $messageText.val();
