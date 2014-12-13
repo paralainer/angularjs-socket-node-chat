@@ -29,11 +29,6 @@ function AppCtrl($scope, socket) {
       });
   });
 
-  socket.on('change:name', function (data) {
-    changeName(data.oldName, data.newName);
-    current_username = data.newName;
-  });
-
   socket.on('user:join', function (data) {
     $scope.messages.push({
       user: 'chatroom',
@@ -58,45 +53,6 @@ function AppCtrl($scope, socket) {
     }
   });
 
-  $(function(){
-    $('#changeNameModal').modal('show')
-  })
-
-  // Private helpers
-  // ===============
-
-  var retrieveUsername = function() {
-    var username;
-    username = (localStorage.getItem("username") || false);
-    if (!username) { return false; }
-    return username;
-  }
-
-
-  var setup_member = function() {
-    var username;
-    username = retrieveUsername();
-    console.log(username);
-    if(username) {
-      socket.emit('change:name', {
-        name: username
-      }, function (result) {
-        if (!result) {
-          alert('There was an error changing your name');
-        } else {
-          
-          changeName($scope.name, username);
-
-          $scope.name = username;
-          $scope.newName = '';
-        }
-      });
-
-      return;
-    }
-    return false;
-  }
-
   // Check if message has a mention for current user
   var getMention = function(message) {
     var text,pattern,mention;
@@ -110,53 +66,16 @@ function AppCtrl($scope, socket) {
     }
 
     return false;
-  }
-
-  var changeName = function (oldName, newName, member) {
-    // rename user in list of users
-    var i;
-    for (i = 0; i < $scope.users.length; i++) {
-      if ($scope.users[i] === oldName) {
-        $scope.users[i] = newName;
-      }
-    }
-
-    localStorage.setItem("username",newName);
-    current_username = newName;
-
-    $scope.messages.push({
-      user: 'chatroom',
-      text: 'User ' + oldName + ' is now known as ' + newName + '.'
-    });
-  }
+  };
 
   // Methods published to the scope
   // ==============================
-
   $scope.mention = function (name) {
       $scope.message = '@' + name + ' ';
       $('.input-message').focus()
   };
 
-  $scope.changeName = function () {
-    socket.emit('change:name', {
-      name: $scope.newName
-    }, function (result) {
-      if (!result) {
-        alert('There was an error changing your name');
-      } else {
-        
-        changeName($scope.name, $scope.newName);
-
-        $scope.name = $scope.newName;
-        $scope.newName = '';
-        $('#changeNameModal').modal('hide')
-      }
-    });
-  };
-
   $scope.messages = [];
-
   $scope.sendMessage = function () {
     socket.emit('send:message', {
       message: $scope.message
