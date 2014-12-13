@@ -36,7 +36,8 @@
         addMessage(message.text)
     });
 
-    function addMessage(text){
+    function addMessage(text) {
+        if (!text || text.trim().length == 0) return;
         $chatBox.append("<div class='message'>" + text + "</div>");
     }
     $('.send_button').click(function (e) {
@@ -44,7 +45,7 @@
         var messageText = $messageText.val();
         $messageText.val('');
         socket.emit('send:message', {message: messageText});
-        $chatBox.append("<div class='message'>" + messageText + "</div>");
+        addMessage(messageText);
     });
 </script>
 </body>
