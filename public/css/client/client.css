@@ -6,30 +6,40 @@ body {
 .input_container{
     position: fixed;
     height: 40pt;
-    padding-top: 10pt;
+    padding: 5pt;
     width: 100%;
     bottom: 0;
     background-color: #efefef;
+    box-sizing: border-box;
+}
+
+.message{
+    height: 15pt;
+    border-bottom: 1px solid lightgray;
+    padding-left: 10pt;
+    margin: 1pt;
 }
 
 .input_container .message_text, .input_container .send_button {
     height: 30pt;
-    padding-left: 5pt;
     border-radius: 5pt;
     border: 1px solid lightgray;
-    display: inline-block;
+    display: block;
     outline:none;
     box-sizing: border-box;
-    float: left;
 }
 
-.input_container .message_text {
+.input_container .message_text_wrap {
+    margin-right: 45pt;
+}
+
+.input_container .message_text{
     width: 100%;
-    }
+}
 
 .input_container .send_button {
+    float: right;
     width: 40pt;
-    margin-left: -40pt;
     cursor: pointer;
 }
 
