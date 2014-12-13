@@ -25,6 +25,7 @@ var config = require('./config')(app, express);
 app.get('/', routes.index);
 app.get('/client', routes.client);
 app.get('/command', routes.commandCenter);
+app.post('/command/create', routes.createGame);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
@@ -48,8 +49,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-// Socket.io Communication
-io.sockets.on('connection', socket);
+io.of("/chat1").on('connection', socket);
+io.of("/chat2").on('connection', socket);
 
 // Start server
 var port = process.env.PORT || 5001;
