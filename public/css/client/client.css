@@ -35,6 +35,7 @@ body {
 
 .input_container .message_text{
     width: 100%;
+    padding: 5pt;
 }
 
 .input_container .send_button {
