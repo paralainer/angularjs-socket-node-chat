@@ -1,19 +1,18 @@
 var express = require('express')
-  , app = express()
-  , http = require('http')
-  , server = http.createServer(app)
-  , routes = require('./routes')
-  , socket = require('./routes/socket.js')
-  , io = require('socket.io').listen(server);
-
+    , app = express()
+    , http = require('http')
+    , server = http.createServer(app)
+    , routes = require('./routes')
+    , socket = require('./routes/socket.js')
+    , io = require('socket.io').listen(server);
 
 
 // Heroku config only
-if(process.env.PORT) {
-  io.configure(function () { 
-    io.set("transports", ["xhr-polling"]); 
-    io.set("polling duration", 10); 
-  });  
+if (process.env.PORT) {
+    io.configure(function () {
+        io.set("transports", ["xhr-polling"]);
+        io.set("polling duration", 10);
+    });
 }
 
 
@@ -26,28 +25,36 @@ app.get('/', routes.index);
 app.get('/client/*', routes.client);
 app.get('/client', routes.client);
 app.get('/command', routes.commandCenter);
-app.post('/command/create', routes.createGame);
+app.post('/command/create', function (req, res) {
+    var data = req.body;
+    var chatrooms = data.chatrooms;
+    for (var i = 0; i < chatrooms.length; i++) {
+        var chatroom = chatrooms[i];
+        io.of("/" + chatroom).on('connection', socket);
+    }
+    res.send({status: 'ok'});
+});
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
 app.use(function (req, res, next) {
 
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', '*');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', '*');
 
-  // Pass to next layer of middleware
-  next();
+    // Pass to next layer of middleware
+    next();
 });
 
 io.of("/chat1").on('connection', socket);
