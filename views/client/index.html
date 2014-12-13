@@ -1,0 +1,42 @@
+<html>
+<head>
+    <meta charset="utf8"/>
+    <base href="/"/>
+    <title>Связь с командным центром</title>
+    <link rel="stylesheet" href="/css/client/client.css"/>
+</head>
+<body>
+<div class="chat_box">
+    <div class="connecting">Connecting...</div>
+</div>
+<div class="input_container">
+    <form action="">
+        <input type="text" class="message_text" name="messageText"/>
+        <button class="send_button">-></button>
+    </form>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/client/client.js"></script>
+<script>
+    var socket = io.connect();
+    var $chatBox = $('.chat_box');
+    var $messageText = $('.message_text');
+
+    socket.on('init', function (data) {
+        $chatBox.html('');
+    });
+
+    socket.on('send:message', function (message) {
+        $chatBox.append("<div class='message'>" + message.text + "</div>");
+    });
+    $('.send_button').click(function (e) {
+        e.preventDefault();
+        var messageText = $messageText.val();
+        $messageText.val('');
+        socket.emit('send:message', {message: messageText});
+        $chatBox.append("<div class='message'>" + messageText + "</div>");
+    });
+</script>
+</body>
+</html>

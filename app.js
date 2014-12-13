@@ -23,6 +23,8 @@ var config = require('./config')(app, express);
 
 // Routes
 app.get('/', routes.index);
+app.get('/client', routes.client);
+app.get('/command', routes.commandCenter);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

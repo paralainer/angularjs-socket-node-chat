@@ -1,0 +1,40 @@
+body {
+    outline:none;
+    padding: 0;
+    margin: 0;
+}
+.input_container{
+    position: fixed;
+    height: 40pt;
+    width: 100%;
+    bottom: 0;
+    background-color: #efefef;
+}
+
+.input_container .message_text, .input_container .send_button {
+    height: 30pt;
+    padding: 5pt;
+    margin: 5pt;
+    border-radius: 5pt;
+    border: 1px solid lightgray;
+    display: inline-block;
+    outline:none;
+    box-sizing: border-box;
+    float: left;
+}
+
+.input_container .message_text {
+    width: 100%;
+    margin-right: 40pt;
+}
+
+.input_container .send_button {
+    width: 40pt;
+    margin-left: -40pt;
+}
+
+
+
+.input_container .message_text:focus {
+    box-shadow: 0px 0px 8px 0px rgba(0, 175, 210, 0.77);
+}
