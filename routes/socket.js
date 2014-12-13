@@ -61,11 +61,10 @@ module.exports = function (socket) {
 
     // broadcast a user's message to other users
     socket.on('send:message', function (data) {
-        socket.broadcast.emit('send:message', {
+        socket.to(data.room).broadcast.emit('send:message', {
             user: name,
             text: data.message
         });
-        messages.push(data.message);
     });
 
     // clean up when a user leaves, and broadcast it to other users
