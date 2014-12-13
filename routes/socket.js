@@ -1,5 +1,5 @@
 // Keep track of which names are used so that there are no duplicates
-var messages = {};
+var messages = [];
 var userNames = (function () {
     var names = {};
 
