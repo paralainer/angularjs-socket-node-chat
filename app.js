@@ -23,16 +23,14 @@ var config = require('./config')(app, express);
 
 // Routes
 app.get('/', routes.index);
-app.get('/partials/:name', routes.partials);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);
 
 // Socket.io Communication
-
 io.sockets.on('connection', socket);
 
 // Start server
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 5001;
 
 server.listen(port);

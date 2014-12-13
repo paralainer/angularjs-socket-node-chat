@@ -1,13 +1,15 @@
-module.exports = function(app, express, mongoose){
+module.exports = function(app, express){
 
   var config = this;
 
   // Configuration
   app.configure(function(){
+    app.engine('html', require('ejs').renderFile);
     app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
+    app.set('view engine', 'html');
+
     app.set('view options', {
-      layout: false
+      layout: true
     });
     app.use(express.bodyParser());
     app.use(express.methodOverride());

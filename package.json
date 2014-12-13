@@ -7,8 +7,8 @@
     "npm": "1.1.x"
   }
   , "dependencies": {
-      "express": "latest"
-    , "jade": ">= 0.26.1"
+      "express": "latest",
+      "ejs": "latest"
     , "socket.io": ">= 0.9.6"
   }
 }
