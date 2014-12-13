@@ -65,6 +65,7 @@ module.exports = function (socket) {
             user: name,
             text: data.message
         });
+        messages.push({text: data.message, name: name});
     });
 
     // clean up when a user leaves, and broadcast it to other users
