@@ -2,8 +2,6 @@
 
 var current_username;
 
-/* Controllers */
-
 function AppCtrl($scope, socket) {
   // Socket listeners
   // ================
@@ -11,7 +9,16 @@ function AppCtrl($scope, socket) {
   socket.on('init', function (data) {
     current_username =  data.name;
     $scope.name = data.name;
-    $scope.users = data.users;
+
+    console.log('123123123');
+
+    if (!data.messages) return;
+    for (var i = 0; i < data.messages.length; i++) {
+      var message = data.messages[i];
+      addMessage(message.text)
+    }
+    //text/name
+    //$scope.users = data.users;
   });
 
   socket.on('send:message', function (message) {
@@ -29,29 +36,9 @@ function AppCtrl($scope, socket) {
       });
   });
 
-  socket.on('user:join', function (data) {
-    $scope.messages.push({
-      user: 'chatroom',
-      text: 'User ' + data.name + ' has joined.'
-    });
-    $scope.users.push(data.name);
-  });
-
-  // add a message to the conversation when a user disconnects or leaves the room
-  socket.on('user:left', function (data) {
-    $scope.messages.push({
-      user: 'chatroom',
-      text: 'User ' + data.name + ' has left.'
-    });
-    var i, user;
-    for (i = 0; i < $scope.users.length; i++) {
-      user = $scope.users[i];
-      if (user === data.name) {
-        $scope.users.splice(i, 1);
-        break;
-      }
-    }
-  });
+  function addMessage(text) {
+    $chatBox.append("<div class='message'>" + text + "</div>");
+  }
 
   // Check if message has a mention for current user
   var getMention = function(message) {
@@ -90,5 +77,4 @@ function AppCtrl($scope, socket) {
     // clear message box
     $scope.message = '';
   };
-
 }

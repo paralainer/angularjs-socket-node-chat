@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf8"/>
     <base href="/"/>
-    <title>Angular + Socket.io Chat</title>
+    <title>Дозор</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <style type="text/css">
         body {
@@ -18,11 +18,11 @@
         <div class="container">
             <button type="button" data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar"><span
                     class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-            <a href="./index.html" class="brand">Angular + Socket.io Chat</a>
+            <a href="./index.html" class="brand">Дозор</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="active"><a href="./index.html">Home</a></li>
+                    <li class="active"><a href="./index.html">Назад</a></li>
                 </ul>
             </div>
         </div>
@@ -30,40 +30,20 @@
 </div>
 <div ng-controller="AppCtrl" class="container">
     <div class="row-fluid">
-        <div class="span10"><h3>Messages</h3>
+        <div class="span10"><h3>Переписка</h3>
 
             <div class="well message-spot"><p ng-repeat="message in messages" ng-class="message.me" class="">
-                {{message.user}}: {{message.text}}</p></div>
+                {{message.user}}:{{message.text}}</p></div>
             <div class="navbar navbar-inverse navbar-fixed-bottom bar-submit-message">
                 <div class="navbar-inner">
                     <div class="container">
                         <form ng-submit="sendMessage()" class="well form-search form-send-message"><input
-                                ng-model="message" placeholder="Message" class="span11 input-message"/><input
-                                type="submit" value="Send" style="margin-left: 10px;margin-top: 0"
+                                ng-model="message" placeholder="Сообщение" class="span11 input-message"/><input
+                                type="submit" value="Отправить" style="margin-left: 10px;margin-top: 0"
                                 class="btn btn-success"/></form>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="span2"><h3>Users</h3>
-
-            <div class="well">
-                <ul class="nav nav-list">
-                    <li ng-repeat="user in users"><a ng-click="mention(user)">{{user}}</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div id="changeNameModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-         class="modal hide fade">
-        <div class="modal-body"><h3>Change your name</h3>
-
-            <p>Your current user name is {{name}}</p>
-
-            <form ng-submit="changeName()"><input ng-model="newName"/><input type="submit" value="Change Name"
-                                                                             style="margin-left: 10px;"
-                                                                             class="btn btn-success"/><a
-                    data-dismiss="modal" style="margin-left: 10px" class="btn btn-danger">Nevermind</a></form>
         </div>
     </div>
 </div>
