@@ -23,6 +23,7 @@ var config = require('./config')(app, express);
 
 // Routes
 app.get('/', routes.index);
+app.get('/client/*', routes.client);
 app.get('/client', routes.client);
 app.get('/command', routes.commandCenter);
 app.post('/command/create', routes.createGame);
