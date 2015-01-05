@@ -19,7 +19,13 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/client/client.js"></script>
 <script>
-    var socket = io.connect('/chat1');
+
+    function getChartRoomNumber() {
+        var clientUrl = document.URL.split("/");
+        return clientUrl[clientUrl.length-1];
+    }
+
+    var socket = io.connect(getChartRoomNumber());
     var $chatBox = $('.chat_box');
     var $messageText = $('.message_text');
 
