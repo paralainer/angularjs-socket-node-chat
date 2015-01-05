@@ -24,8 +24,9 @@ var config = require('./config')(app, express);
 app.get('/', routes.index);
 app.get('/client', routes.client);
 app.get('/client/*', routes.client);
-app.get('/command', routes.commandCenter);
-app.post('/command/create', function (req, res) {
+app.get('/command-center', routes.commandCenter);
+app.get('/command-center/*', routes.commandCenter);
+app.post('/command-center/create', function (req, res) {
     var data = req.body;
     var chatrooms = data.chatrooms;
     for (var i = 0; i < chatrooms.length; i++) {
@@ -34,10 +35,6 @@ app.post('/command/create', function (req, res) {
     }
     res.send({status: 'ok'});
 });
-app.get('/command/*', routes.commandCenter);
-
-// redirect all others to the index (HTML5 history)
-app.get('*', routes.index);
 
 app.use(function (req, res, next) {
 

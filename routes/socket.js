@@ -51,7 +51,7 @@ function initUserNames() {
 }
 
 function initRoom(socket){
-    var roomName = socket.namespace.name;
+    var roomName = this.name;
     var room = rooms[roomName];
     if (room){
         return room;

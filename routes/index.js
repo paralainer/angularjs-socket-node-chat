@@ -4,12 +4,12 @@
  */
 
 exports.index = function (req, res) {
-    res.render('index');
+    res.render('index.html');
 };
 exports.client = function (req, res) {
-    res.render('client/index');
+    res.render('client/index.html');
 };
 
 exports.commandCenter = function (req, res) {
-    res.render('commandcenter/index');
+    res.render('commandcenter/index.html');
 };
