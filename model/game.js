@@ -7,18 +7,25 @@ var GameSchema = new Schema({
     teams: [{
         name: String,
         code: String,
-        tasksOrder: [Number],
+        tasksOrder: [String],
         currentTime: Number,
         currentTask: {
-            number: Number,
-            name: String
-
+            taskId: String,
+            name: String,
+            subTaskIndex: Number
         }
     }],
     tasks: [{
         name: String,
-        type: String
-
+        timeLimit: String,
+        subTasks: [
+            {
+                name: String,
+                type: String,
+                text: String,
+                config: Schema.Types.Mixed
+            }
+        ]
     }]
 });
 
