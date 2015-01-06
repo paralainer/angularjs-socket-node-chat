@@ -2,10 +2,18 @@ var express = require('express')
     , app = express()
     , http = require('http')
     , server = http.createServer(app)
-    , routes = require('./routes')
-    , socket = require('./routes/socket.js')
-    , io = require('socket.io').listen(server);
+    , socket = require('./socket/socket.js')
+    , io = require('socket.io').listen(server)
+    , mongoose = require('mongoose');
 
+mongoose.connect('mongodb://dozor:dozor@ds031751.mongolab.com:31751/dozor');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+    console.log("Connected to Mongo DB");
+});
+
+global.__base = __dirname;
 
 // Heroku config only
 if (process.env.PORT) {
@@ -17,43 +25,9 @@ if (process.env.PORT) {
 
 
 // Configuration
-var config = require('./config')(app, express);
-
-
+require('./config')(app, express);
 // Routes
-app.get('/', routes.index);
-app.get('/client', routes.client);
-app.get('/client/*', routes.client);
-app.get('/command-center', routes.commandCenter);
-app.get('/command-center/*', routes.commandCenter);
-app.post('/command-center/create', function (req, res) {
-    var data = req.body;
-    var chatrooms = data.chatrooms;
-    for (var i = 0; i < chatrooms.length; i++) {
-        var chatroom = chatrooms[i];
-        io.of("/" + chatroom).on('connection', socket);
-    }
-    res.send({status: 'ok'});
-});
-
-app.use(function (req, res, next) {
-
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
-
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', '*');
-
-    // Pass to next layer of middleware
-    next();
-});
+require('./routes')(app);
 
 io.of("/chat1").on('connection', socket);
 io.of("/chat2").on('connection', socket);
