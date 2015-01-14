@@ -2,7 +2,6 @@ var express = require('express')
     , app = express()
     , http = require('http')
     , server = http.createServer(app)
-    , socket = require('./socket/socket.js')
     , io = require('socket.io').listen(server)
     , mongoose = require('mongoose');
 
@@ -27,10 +26,7 @@ if (process.env.PORT) {
 // Configuration
 require('./config')(app, express);
 // Routes
-require('./routes')(app);
-
-io.of("/chat1").on('connection', socket);
-io.of("/chat2").on('connection', socket);
+require('./routes')(app, io);
 
 // Start server
 var port = process.env.PORT || 5001;

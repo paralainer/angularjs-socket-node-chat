@@ -68,7 +68,7 @@ function initRoom(socket){
 }
 
 // export function for listening to the socket
-module.exports = function (socket) {
+module.exports = function (socket, teamId) {
     var room = initRoom(socket);
     var messages = room.messages;
     var userNames = room.userNames;

@@ -11,7 +11,7 @@ exports.addTeam = function (req, res) {
     var team = req.body.team;
     Game.findByIdAndUpdate(
         req.body.gameId,
-        {$push: {'teams': team}},
+        {$push: {teams: team}},
         {upsert: true})
         .exec()
         .then(function (game) {

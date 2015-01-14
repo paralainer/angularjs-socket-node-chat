@@ -19,12 +19,9 @@
 <script src="js/client.js"></script>
 <script>
 
-    function getChartRoomNumber() {
-        var clientUrl = document.URL.split("/");
-        return clientUrl[clientUrl.length-1];
-    }
+    var roomId = '6e07dd44a0c02fa52531eae1285b5f19';
 
-    var socket = io.connect("/" + getChartRoomNumber());
+    var socket = io.connect("/" + roomId);
     var $chatBox = $('.chat_box');
     var $messageText = $('.message_text');
 
