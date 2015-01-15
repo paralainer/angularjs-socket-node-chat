@@ -33,10 +33,10 @@ var API_CALLS = [
     },
     {
         url: '/api/chat/prepare',
-        params: function(data){
-           return {gameId: data[0].gameId}
-        },
         method: 'post',
+        params: function(data){
+            return {gameId: data[0].gameId}
+        },
         callback: function (json) {
             console.log('Chats prepared');
             console.log(json);

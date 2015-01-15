@@ -21,7 +21,7 @@
 
     var roomId = '6e07dd44a0c02fa52531eae1285b5f19';
 
-    var socket = io.connect("/" + roomId);
+    var socket = io.connect("/" + roomId, {query: "username=test&lastMessageId=0"});
     var $chatBox = $('.chat_box');
     var $messageText = $('.message_text');
 

@@ -6,7 +6,10 @@ var ChatSchema = new Schema({
     teamId: Schema.Types.ObjectId,
     gameId: Schema.Types.ObjectId,
     messages:[{
-        timestamp: Number,
+        timestamp: {
+            type: Date,
+            default: Date.now
+        },
         user: String,
         text: String
     }]

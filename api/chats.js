@@ -1,6 +1,6 @@
 var Game = require(__base + "/model/game");
 var Chat = require(__base + "/model/chat");
-var socket = require(__base + "/socket/socket");
+var chatSocket = require(__base + "/socket/chat_socket");
 
 exports.getChatRoom = function (req, res) {
     var teamCode = req.params.teamCode;
@@ -20,7 +20,7 @@ exports.prepareChats = function (io) {
                 game.teams.forEach(function (team) {
                     io.of(
                         '/' + getChatRoom(team.code)
-                    ).on('connection', socket);
+                    ).on('connection', chatSocket(team._id));
                     chats.push({
                         gameId: game._id,
                         teamId: team._id
