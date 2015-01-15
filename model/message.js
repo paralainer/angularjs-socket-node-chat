@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 
 var MessageSchema = new Schema({
-    chatId: Schema.Types.ObjectId,
+    teamId: Schema.Types.ObjectId,
     text: String,
     user: String,
     timestamp: {

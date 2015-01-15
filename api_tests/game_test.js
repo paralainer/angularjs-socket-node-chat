@@ -4,7 +4,7 @@ function url(api) {
 }
 
 var API_CALLS = [
-    {
+    /*{
         url: '/api/game',
         method: 'post',
         params: function () {
@@ -40,12 +40,12 @@ var API_CALLS = [
         callback: function (json) {
             console.log('RoomId is: ' + json.roomId);
         }
-    },
+    },*/
     {
         url: '/api/chat/prepare',
         method: 'post',
         params: function(data){
-            return {gameId: data[0].gameId}
+            return {gameId: '54b7aa01fabf68b8255f9a1c'}
         },
         callback: function (json) {
             console.log('Chats prepared');

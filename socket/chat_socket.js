@@ -1,31 +1,27 @@
-var Chat = require(__base + "/model/chat");
 var Message = require(__base + "/model/message");
 // export function for listening to the socket
-module.exports = function (chatId) {
+module.exports = function (teamId) {
     return function (socket) {
-        // send the new user their name and a list of users
         var query = socket.request._query;
         var username = query.username;
+        var lastMessageId = query.lastMessageId;
+
         if (!username || username.trim().length == 0) {
             socket.disconnect();
         }
-        var lastMessageId = query.lastMessageId;
-        Chat.findById(chatId).exec().then(function (chat) {
-            var messageQuery;
-            if (lastMessageId) {
-                messageQuery = [];
-            } else {
-                messageQuery = Message.find({chatId: chat._id}).sort("timestamp");
-            }
 
-            return messageQuery.exec();
-        }).then(function (messages) {
+        var messageQuery = Message.where("teamId").equals(teamId);
+        if (lastMessageId) {
+            messageQuery.where("_id").gt(lastMessageId);
+        }
+
+        messageQuery.sort("timestamp").exec().then(function (messages) {
             socket.emit('init', {
                 messages: messages
             });
 
             socket.on('send:message', function (data) {
-                var message = {chatId: chatId, text: data.message, user: username};
+                var message = {teamId: teamId, text: data.message, user: username};
                 Message.create(message).then(function () {
                         socket.broadcast.emit('send:message', message);
                     }
