@@ -18,17 +18,24 @@ exports.prepareChats = function (io) {
             .then(function (game) {
                 var chats = [];
                 game.teams.forEach(function (team) {
-                    io.of(
-                        '/' + getChatRoom(team.code)
-                    ).on('connection', chatSocket(team._id));
                     chats.push({
                         gameId: game._id,
-                        teamId: team._id
+                        teamId: team._id,
+                        teamCode: team.code
                     });
                 });
-                return Chat.create(chats);
-            }).then(function (chats) {
-                res.send(chats);
+                return Chat.collection.insert(chats, function(err, chats){
+                    if (err){
+                        res.send(500, err);
+                        return;
+                    }
+                    chats.forEach(function (chat) {
+                        io.of(
+                            '/' + getChatRoom(chat.teamCode)
+                        ).on('connection', chatSocket(chat._id));
+                    });
+                    res.send(chats);
+                });
             });
     }
 };

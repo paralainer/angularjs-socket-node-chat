@@ -25,6 +25,16 @@ var API_CALLS = [
         }
     },
     {
+        url: '/api/game/team',
+        method: 'post',
+        params: function (data) {
+            return {team: {name: 'testTeam2', code: 'testCodeAbC2'}, gameId: data[0].gameId};
+        },
+        callback: function (json) {
+            console.log('Created team with id: ' + json.teamId);
+        }
+    },
+    {
         url: '/api/chat/room/testCodeAbC',
         method: 'get',
         callback: function (json) {

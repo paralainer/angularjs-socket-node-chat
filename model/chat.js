@@ -4,15 +4,8 @@ var Schema = mongoose.Schema;
 
 var ChatSchema = new Schema({
     teamId: Schema.Types.ObjectId,
-    gameId: Schema.Types.ObjectId,
-    messages:[{
-        timestamp: {
-            type: Date,
-            default: Date.now
-        },
-        user: String,
-        text: String
-    }]
+    teamCode: String,
+    gameId: Schema.Types.ObjectId
 });
 
 module.exports = mongoose.model('Chat', ChatSchema);

@@ -1,43 +1,37 @@
 var Chat = require(__base + "/model/chat");
+var Message = require(__base + "/model/message");
 // export function for listening to the socket
-module.exports = function (teamId) {
+module.exports = function (chatId) {
     return function (socket) {
         // send the new user their name and a list of users
         var query = socket.request._query;
-        var userName = query.username;
-        if (!userName || userName.trim().length == 0) {
+        var username = query.username;
+        if (!username || username.trim().length == 0) {
             socket.disconnect();
         }
-        var lastMessageId = query.lastMessageId || 0;
-        Chat.findOne({teamId: teamId}).exec().then(function (chat) {
-            var messages;
-            if (chat.messages.length <= lastMessageId) {
-                messages = [];
+        var lastMessageId = query.lastMessageId;
+        Chat.findById(chatId).exec().then(function (chat) {
+            var messageQuery;
+            if (lastMessageId) {
+                messageQuery = [];
             } else {
-                messages = chat.messages.slice(lastMessageId);
+                messageQuery = Message.find({chatId: chat._id}).sort("timestamp");
             }
 
+            return messageQuery.exec();
+        }).then(function (messages) {
             socket.emit('init', {
                 messages: messages
             });
 
-            // broadcast a user's message to other users
             socket.on('send:message', function (data) {
-                var message = {text: data.message, user: userName};
-                Chat.update({_id: chat._id},
-                    {
-                        $push: {
-                            messages: message
-                        }
-                    },
-                    {upsert: true}
-                ).exec().then(function () {
+                var message = {chatId: chatId, text: data.message, user: username};
+                Message.create(message).then(function () {
                         socket.broadcast.emit('send:message', message);
                     }
                 );
             });
 
-            // clean up when a user leaves, and broadcast it to other users
             socket.on('disconnect', function () {
                 //
             });
