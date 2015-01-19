@@ -16,7 +16,10 @@ exports.prepareChats = function (io, game) {
         io.of(
             '/' + chatRoom
         ).on('connection', chatSocket(team._id));
-        chats.push(chatRoom);
+
+        var chatDesc = {};
+        chatDesc[team.code] = chatRoom;
+        chats.push(chatDesc);
     });
     return chats;
 };

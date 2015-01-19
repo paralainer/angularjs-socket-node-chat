@@ -31,6 +31,7 @@ var GameSchema = new Schema({
 });
 
 GameSchema.index({"teams.code": 1}, {unique: true});
+GameSchema.index({"status": 1});
 
 module.exports = mongoose.model('Game', GameSchema);
 
