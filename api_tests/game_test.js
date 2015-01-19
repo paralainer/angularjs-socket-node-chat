@@ -42,10 +42,10 @@ var API_CALLS = [
         }
     },*/
     {
-        url: '/api/chat/prepare',
+        url: '/api/game/status',
         method: 'post',
         params: function(data){
-            return {gameId: '54b7aa01fabf68b8255f9a1c'}
+            return {gameId: '54b7aa01fabf68b8255f9a1c', status: 'prepared'}
         },
         callback: function (json) {
             console.log('Chats prepared');

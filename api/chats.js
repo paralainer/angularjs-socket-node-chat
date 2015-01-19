@@ -9,23 +9,16 @@ exports.getChatRoom = function (req, res) {
 /**
  * creates chat rooms
  */
-exports.prepareChats = function (io) {
-    return function (req, res) {
-        var gameId = req.body.gameId;
-        Game.findById(gameId)
-            .exec()
-            .then(function (game) {
-                var chats = [];
-                game.teams.forEach(function (team) {
-                    var chatRoom = getChatRoom(team.code);
-                    io.of(
-                        '/' + chatRoom
-                    ).on('connection', chatSocket(team._id));
-                    chats.push(chatRoom);
-                });
-                res.send(chats);
-            });
-    }
+exports.prepareChats = function (io, game) {
+    var chats = [];
+    game.teams.forEach(function (team) {
+        var chatRoom = getChatRoom(team.code);
+        io.of(
+            '/' + chatRoom
+        ).on('connection', chatSocket(team._id));
+        chats.push(chatRoom);
+    });
+    return chats;
 };
 
 

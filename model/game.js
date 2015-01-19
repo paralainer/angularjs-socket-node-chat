@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 
 var GameSchema = new Schema({
     name: String,
+    status: String,
     teams: [{
         name: String,
         code: String,
@@ -32,4 +33,11 @@ var GameSchema = new Schema({
 GameSchema.index({"teams.code": 1}, {unique: true});
 
 module.exports = mongoose.model('Game', GameSchema);
+
+module.exports.status = {
+    NEW: 'new',
+    PREPARED: 'prepared',
+    IN_PROGRESS: 'in_progress',
+    ENDED: 'ended'
+};
 
