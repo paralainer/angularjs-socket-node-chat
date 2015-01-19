@@ -5,50 +5,30 @@
     <link rel="stylesheet" href="css/client.css"/>
 </head>
 <body>
-<div class="chat_box">
-    <div class="connecting">Connecting...</div>
-</div>
-<div class="input_container">
-    <form action="">
-        <button class="send_button">-></button>
-        <div class="message_text_wrap"><input type="text" class="message_text" name="messageText"/></div>
-    </form>
-</div>
+<section id="login_form">
+    <div class="form_wrapper">
+        <div><input type="text" class="code" placeholder="Код команды" value="testCodeAbC"/></div>
+        <div><input type="text" class="name" placeholder="Ваше имя" value="test"/></div>
+        <div>
+            <button class="button ok">Войти</button>
+        </div>
+    </div>
+</section>
+<section id="chat">
+    <div class="chat_box">
+        <div class="connecting">Connecting...</div>
+    </div>
+    <div class="input_container">
+        <form action="">
+            <button class="send_button">-></button>
+            <div class="message_text_wrap"><input type="text" class="message_text" name="messageText"/></div>
+        </form>
+    </div>
+</section>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/client.js"></script>
 <script>
-
-    var roomId = '6e07dd44a0c02fa52531eae1285b5f19';
-
-    var socket = io.connect("/" + roomId, {query: "username=test&lastMessageId=54b7b22b444735c4032300b4"});
-    var $chatBox = $('.chat_box');
-    var $messageText = $('.message_text');
-
-    socket.on('init', function (data) {
-        $chatBox.html('');
-        if (!data.messages) return;
-        for (var i = 0; i < data.messages.length; i++) {
-            var message = data.messages[i];
-            addMessage(message.text)
-        }
-    });
-
-    socket.on('send:message', function (message) {
-        addMessage(message.text)
-    });
-
-    function addMessage(text) {
-        if (!text || text.trim().length == 0) return;
-        $chatBox.append("<div class='message'>" + text + "</div>");
-    }
-    $('.send_button').click(function (e) {
-        e.preventDefault();
-        var messageText = $messageText.val();
-        $messageText.val('');
-        socket.emit('send:message', {message: messageText});
-        addMessage(messageText);
-    });
 </script>
 </body>
 </html>

@@ -3,6 +3,11 @@ body {
     padding: 0;
     margin: 0;
 }
+
+#chat {
+   display: none;
+}
+
 .input_container{
     position: fixed;
     height: 40pt;
@@ -44,8 +49,30 @@ body {
     cursor: pointer;
 }
 
-
-
 .input_container .message_text:focus {
     box-shadow: 0px 0px 8px 0px rgba(0, 175, 210, 0.77);
+}
+
+#login_form .form_wrapper {
+    border-radius: 5px;
+    padding: 10px;
+    width: 200pt;
+    max-width: 100%;
+    margin: auto;
+    background-color: lightgray;
+    display: block;
+}
+
+#login_form .form_wrapper input, #login_form .form_wrapper button {
+    height: 30pt;
+    margin: 5pt 0;
+    padding: 4pt;
+    border-radius: 5px;
+    border: 1px solid grey;
+    width: 100%;
+    outline:none;
+}
+
+#login_form .form_wrapper button {
+    cursor: pointer;
 }
