@@ -1,5 +1,5 @@
 var Game = require(__base + "/model/game");
-var chats = require(__base + "/api/chats");
+var chatService = require(__base + "/service/chat_service");
 
 exports.create = function (req, res) {
     Game.create(req.body)
@@ -45,7 +45,7 @@ exports.changeStatus = function (io) {
             {status: req.body.status},
             {upsert: true})
             .exec().then(function (game) {
-                res.send(chats.prepareChats(io, game));
+                res.send(chatService.prepareChats(io, game));
             });
     }
 };

@@ -34,7 +34,7 @@ var port = process.env.PORT || 5001;
 server.listen(port);
 
 var Game = require(__base + "/model/game");
-var chats = require(__base + "/api/chats");
+var chatService = require(__base + "/service/chat_service");
 Game.find({
     status: {
         $in: [Game.status.PREPARED, Game.status.IN_PROGRESS]
@@ -42,6 +42,6 @@ Game.find({
 }).exec().then(function (games) {
     games.forEach(function (game) {
         console.log('Chats prepared for game: ' + game._id);
-        console.log(chats.prepareChats(io, game));
+        console.log(chatService.prepareChats(io, game));
     });
 });
