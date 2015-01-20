@@ -18,7 +18,7 @@ var GameSchema = new Schema({
     }],
     tasks: [{
         name: String,
-        timeLimit: String,
+        timeLimit: Number,
         subTasks: [
             {
                 name: String,
@@ -39,6 +39,6 @@ module.exports.status = {
     NEW: 'new',
     PREPARED: 'prepared',
     IN_PROGRESS: 'in_progress',
-    ENDED: 'ended'
+    FINISHED: 'finished'
 };
 
